@@ -10,7 +10,6 @@
 <body>
   <div class="container">
     <h1>System Information Dashboard</h1>
-
     <!-- Static System Information -->
     <div class="card">
       <h2>Static System Information</h2>
@@ -58,6 +57,18 @@
           <canvas id="networkChart"></canvas>
         </div> -->
       </div>
+    </div>
+    <div class="card">
+      <h1>🔋Battery Health Report</h1>
+      <p>Click below to generate and view your Windows battery report.</p>
+      <a href="{{ url_for('generate_report') }}">
+        <div class="button-wrapper">
+          <button>Generate Report</button>
+        </div>  
+      </a>
+    </div>
+    <div class="button-wrapper">
+      <button id="backBtn"> BACK TO DASHBOARD</button>
     </div>
   </div>
 
@@ -141,6 +152,10 @@
         chart.update();
       }
     }
+
+    backBtn.addEventListener('click', () => {
+            window.location.href = '/';
+    })
 
     // Initialize charts on page load
     window.onload = () => {

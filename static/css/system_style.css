@@ -66,8 +66,58 @@ h1 {
 }
 
 .card li strong {
-  color: #ffdd57;
+  color: #ffcd05;
 }
+
+
+.card p {
+  font-size: 16px;
+  margin-bottom: 25px;
+  color: #afafaf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card button {
+  align-items: center;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #3cff00;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.card button:hover {
+  background-color: #0d2501;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh; /* Optional: center vertically in full view */
+}
+
+button {
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #c800ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #380243;
+}
+
 
 .charts-grid {
   display: grid;

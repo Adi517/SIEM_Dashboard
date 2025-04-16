@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 import requests
 import re
@@ -24,15 +24,11 @@ from urllib.parse import urlparse
 from datetime import datetime
 import ssl
 import socket
-import platform
-import cpuinfo
-import psutil
-import socket
 import datetime
 import wmi
 import pythoncom
-from flask import Flask, render_template, jsonify
 import threading
+import subprocess
 
 
 # Load environment variables
@@ -183,6 +179,24 @@ def emit_dynamic_info():
 def on_connect():
     print('Client connected')
 
+@app.route('/system/generate')
+def generate_report():
+    report_path = os.path.expanduser("~\\battery-report.html")
+    try:
+        subprocess.run(["powercfg", "/batteryreport", "/output", report_path], check=True, shell=True)
+        return redirect(url_for('show_report'))
+    except subprocess.CalledProcessError:
+        return "❌ Failed to generate battery report."
+
+@app.route('/system/report')
+def show_report():
+    report_path = os.path.expanduser("~\\battery-report.html")
+    if os.path.exists(report_path):
+        with open(report_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+        return render_template('report.html', report_html=content)
+    else:
+        return "⚠️ Report not found. Please generate it first."
 @app.route('/password')
 def password_page():
     return render_template('password.html')
