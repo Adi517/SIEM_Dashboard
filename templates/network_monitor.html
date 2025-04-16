@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Traffic Monitor</title>
+
+    <!-- ✅ Include Chart.js from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <h1>Network Traffic Monitor</h1>
+    <button id="backBtn">Back</button>
+    <div class="flex-box">
+        <div class="flex-con">
+            <h3>Traffic Chart</h3>
+            <canvas id="trafficChart"></canvas>
+        </div>
+        <div class="flex-con">
+            <h3>Packet Size chart</h3>
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div class="flex-con">
+            <h3>Protocol Percentage</h3>
+            <canvas id="protocolChart"></canvas>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Protocol</th>
+                <th>Size (bytes)</th>
+            </tr>
+        </thead>
+        <tbody id="trafficTable"></tbody>
+    </table>
+
+    <script src="/static/js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e2f;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Title */
+h1 {
+    color: #fffbfb;
+    margin: 20px 0;
+}
+
+/* Flexbox Container for Charts */
+.flex-box {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Individual Chart Container */
+.flex-con {
+    background:#44475a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    flex: 1;
+    color: white;
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background:#757888;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table Header */
+th {
+    background: #61dafb;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+}
+
+/* Table Rows */
+td {
+    padding: 8px;
+    border-bottom: 1px solid #44475a;
+    color: white;
+}
+
+/* Alternate Row Color */
+tbody tr:nth-child(even) {
+    background: #44475a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .flex-box {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .flex-con {
+        width: 90%;
+    }
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing Detection System</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #a2caed, #00f2fe);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #090101;
+        }
+
+        .container {
+            background: #ffffffdd;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-wrapper {
+            text-align: center;
+            width: 100%;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #backBtn {
+            background-color: #6c757d;
+        }
+
+        #backBtn:hover {
+            background-color: #495057;
+        }
+
+        .result {
+            margin-top: 25px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+            width: 100%;
+            text-align: center;
+            display: none; /* Hidden initially */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Phishing Detection System</h1>
+    
+    <div class="container">
+        <form id="urlForm">
+            <input type="text" name="url" placeholder="Enter URL here..." required>
+            <div class="btn-wrapper">
+                <button type="submit">Check URL</button>
+            </div>
+        </form>
+        <div class="result" id="result"></div>
+        <button id="backBtn">⬅️ Back</button>
+    </div>
+
+    <script>
+        const form = document.getElementById('urlForm');
+        const resultDiv = document.getElementById('result');
+        const backBtn = document.getElementById('backBtn');
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/phishing/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.prediction === 1 || result.prediction === '1' || result.prediction === 'phishing') {
+                    resultDiv.innerHTML = "⚠️ This URL is likely <strong style='color:red;'>Phishing</strong><br><br>";
+                } else {
+                    resultDiv.innerHTML = "✅ This URL is <strong style='color:green;'>Safe</strong><br><br>";
+                }
+
+                // Show SSL Check details if available
+                if (result.ssl_check) {
+                    if (result.ssl_check.valid_ssl) {
+                        resultDiv.innerHTML += `🔒 SSL Certificate is <strong style="color:green;">Valid</strong><br>`;
+                        resultDiv.innerHTML += `📅 Expires in <strong>${result.ssl_check.days_until_expiry}</strong> days<br>`;
+                        resultDiv.innerHTML += `🏢 Issuer: <strong>${result.ssl_check.issuer || 'Unknown'}</strong>`;
+                    } else {
+                        resultDiv.innerHTML += `<br>❌ SSL Certificate <strong style="color:red;">Invalid or Unavailable</strong><br>`;
+                        if (result.ssl_check.error) {
+                            resultDiv.innerHTML += `Error: ${result.ssl_check.error}`;
+                        }
+                    }
+                }
+
+
+                resultDiv.style.display = 'block'; // Show result when ready
+            } catch (error) {
+                resultDiv.innerText = '❌ Error while checking URL.';
+                resultDiv.style.display = 'block';
+                console.error(error);
+            }
+        };
+
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/';
+        });
+    </script>
+
+</body>
+</html>

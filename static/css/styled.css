@@ -1,0 +1,89 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e2f;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #f0f0f0;
+    background-image: url('/static/images/password.jpg'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the whole page */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repeating */
+    background-attachment: fixed; /* Keeps it fixed when scrolling */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+div {
+    background: #2b2b3d;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    text-align: center;
+    opacity: 95%;
+}
+
+h1 {
+    color: #61dafb;
+    margin-bottom: 25px;
+}
+
+input[type="password"] {
+    width: calc(100% - 24px);
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    background-color: #1e1e2f;
+    color: #f0f0f0;
+    transition: border-color 0.3s;
+}
+
+input[type="password"]:focus {
+    border-color: #61dafb;
+    outline: none;
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #61dafb;
+    color: #1e1e2f;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #53c7e9;
+}
+
+#result {
+    margin-top: 25px;
+    background-color: #1e1e2f;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #44475a;
+    width: 100%; /* Full width of parent div */
+    text-align: left;
+    box-sizing: border-box;
+}
+
+#result strong {
+    color: #ff79c6;
+}
+
+#result ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+#result li {
+    margin: 5px 0;
+}

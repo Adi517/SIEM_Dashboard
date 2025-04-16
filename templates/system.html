@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Real-Time System Dashboard</title>
+  <link rel="stylesheet" href="/static/css/system_style.css" />
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>System Information Dashboard</h1>
+
+    <!-- Static System Information -->
+    <div class="card">
+      <h2>Static System Information</h2>
+      <ul>
+        <li><strong>System Name:</strong> {{ static_info.system_name }}</li>
+        <li><strong>OS:</strong> {{ static_info.os }} ({{ static_info.os_version }})</li>
+        <li><strong>Machine:</strong> {{ static_info.machine }}</li>
+        <li><strong>Processor:</strong> {{ static_info.processor }}</li>
+        <li><strong>CPU Brand:</strong> {{ static_info.cpu_brand }}</li>
+        <li><strong>CPU Cores:</strong> {{ static_info.cpu_cores }}</li>
+        <li><strong>CPU Threads:</strong> {{ static_info.cpu_threads }}</li>
+        <li><strong>Boot Time:</strong> {{ static_info.boot_time }}</li>
+      </ul>
+    </div>
+
+    <!-- Dynamic System Information -->
+    <div class="card">
+      <h2>Dynamic System Information</h2>
+      <ul>
+        <li><strong>CPU Usage:</strong> <span id="cpu_usage"></span>%</li>
+        <li><strong>CPU Temperature:</strong> <span id="cpu_temp"></span>°C</li>
+        <li><strong>Uptime:</strong> <span id="uptime"></span></li>
+        <li><strong>Memory:</strong> <span id="memory_used"></span> / <span id="memory_total"></span> GB (<span id="memory_percent"></span>%)</li>
+        <li><strong>Disk:</strong> <span id="disk_used"></span> / <span id="disk_total"></span> GB (<span id="disk_percent"></span>%)</li>
+        <li><strong>IP Address:</strong> <span id="ip_address"></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>CPU Usage</h3>
+          <canvas id="cpuChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Memory Usage</h3>
+          <canvas id="memoryChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Disk Usage</h3>
+          <canvas id="diskChart"></canvas>
+        </div>
+        <!-- <div class="chart-card">
+          <h3>Network Usage</h3>
+          <canvas id="networkChart"></canvas>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+    let cpuChart, memoryChart, diskChart, networkChart;
+
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+    });
+
+    socket.on("update_info", (data) => {
+      // Update DOM values safely
+      document.getElementById("cpu_usage").textContent = data.cpu_usage_percent ?? "N/A";
+      document.getElementById("cpu_temp").textContent =
+        data.cpu_temperature !== null && data.cpu_temperature !== undefined
+          ? data.cpu_temperature.toFixed(2)
+          : "N/A";
+      document.getElementById("uptime").textContent = data.uptime ?? "N/A";
+      document.getElementById("memory_total").textContent = data.memory_total ?? "N/A";
+      document.getElementById("memory_used").textContent = data.memory_used ?? "N/A";
+      document.getElementById("memory_percent").textContent = data.memory_percent ?? "N/A";
+      document.getElementById("disk_total").textContent = data.disk_total ?? "N/A";
+      document.getElementById("disk_used").textContent = data.disk_used ?? "N/A";
+      document.getElementById("disk_percent").textContent = data.disk_percent ?? "N/A";
+      document.getElementById("ip_address").textContent = data.ip_address ?? "N/A";
+
+      // Update Charts safely
+      if (typeof data.cpu_usage_percent === "number")
+        updateChart(cpuChart, data.cpu_usage_percent, 100 - data.cpu_usage_percent);
+      if (typeof data.memory_used === "number" && typeof data.memory_total === "number")
+        updateChart(memoryChart, data.memory_used, data.memory_total - data.memory_used);
+      if (typeof data.disk_used === "number" && typeof data.disk_total === "number")
+        updateChart(diskChart, data.disk_used, data.disk_total - data.disk_used);
+      // if (data.network?.download !== undefined && data.network?.upload !== undefined)
+      //   updateChart(networkChart, data.network.download, data.network.upload);
+    });
+
+    function initCharts() {
+      cpuChart = createChart(document.getElementById("cpuChart"), "Used", "Free", "#FF6384", "#36A2EB");
+      memoryChart = createChart(document.getElementById("memoryChart"), "Used", "Free", "#FFCE56", "#4BC0C0");
+      diskChart = createChart(document.getElementById("diskChart"), "Used", "Free", "#9966FF", "#FF9F40");
+      // networkChart = createChart(document.getElementById("networkChart"), "Download", "Upload", "#4BC0C0", "#FF6384");
+    }
+
+    function createChart(ctx, label1, label2, color1, color2) {
+      return new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: [label1, label2],
+          datasets: [
+            {
+              data: [0, 100],
+              backgroundColor: [color1, color2],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                color: "#ffffff", // Make legend labels white
+                font: {
+                  size: 14,
+                  weight: "bold"
+                }
+              },
+            },
+          },
+        },
+      });
+    }
+
+
+    function updateChart(chart, used, free) {
+      if (chart && typeof used === "number" && typeof free === "number") {
+        chart.data.datasets[0].data = [used, free];
+        chart.update();
+      }
+    }
+
+    // Initialize charts on page load
+    window.onload = () => {
+      initCharts();
+    };
+  </script>
+</body>
+</html>

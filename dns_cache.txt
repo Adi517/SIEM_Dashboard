@@ -1,0 +1,67 @@
+
+Windows IP Configuration
+
+    geo.prod.do.dsp.mp.microsoft.com
+    ----------------------------------------
+    Record Name . . . . . : geo.prod.do.dsp.mp.microsoft.com
+    Record Type . . . . . : 5
+    Time To Live  . . . . : 72
+    Data Length . . . . . : 8
+    Section . . . . . . . : Answer
+    CNAME Record  . . . . : geo.prod.do.dsp.trafficmanager.net
+
+
+    Record Name . . . . . : geo.prod.do.dsp.trafficmanager.net
+    Record Type . . . . . : 5
+    Time To Live  . . . . : 72
+    Data Length . . . . . : 8
+    Section . . . . . . . : Answer
+    CNAME Record  . . . . : array615.prod.do.dsp.mp.microsoft.com
+
+
+    Record Name . . . . . : array615.prod.do.dsp.mp.microsoft.com
+    Record Type . . . . . : 1
+    Time To Live  . . . . : 72
+    Data Length . . . . . : 4
+    Section . . . . . . . : Answer
+    A (Host) Record . . . : 40.69.74.84
+
+
+    www.virustotal.com
+    ----------------------------------------
+    Record Name . . . . . : www.virustotal.com
+    Record Type . . . . . : 1
+    Time To Live  . . . . : 251
+    Data Length . . . . . : 4
+    Section . . . . . . . : Answer
+    A (Host) Record . . . : 34.54.88.138
+
+
+    tsfe.trafficshaping.dsp.mp.microsoft.com
+    ----------------------------------------
+    Record Name . . . . . : tsfe.trafficshaping.dsp.mp.microsoft.com
+    Record Type . . . . . : 5
+    Time To Live  . . . . : 17
+    Data Length . . . . . : 8
+    Section . . . . . . . : Answer
+    CNAME Record  . . . . : tsfe.trafficmanager.net
+
+
+    Record Name . . . . . : tsfe.trafficmanager.net
+    Record Type . . . . . : 1
+    Time To Live  . . . . : 17
+    Data Length . . . . . : 4
+    Section . . . . . . . : Answer
+    A (Host) Record . . . : 52.175.245.232
+
+
+    media.fpnq7-1.fna.whatsapp.net
+    ----------------------------------------
+    Record Name . . . . . : media.fpnq7-1.fna.whatsapp.net
+    Record Type . . . . . : 1
+    Time To Live  . . . . : 681
+    Data Length . . . . . : 4
+    Section . . . . . . . : Answer
+    A (Host) Record . . . : 182.79.155.162
+
+
